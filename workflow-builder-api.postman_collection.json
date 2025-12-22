@@ -51,6 +51,24 @@
 							"body": "Workflow Editor Service is running"
 						}
 					]
+				},
+				{
+					"name": "Health Check JSON",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"health"
+							]
+						},
+						"description": "Health check endpoint returning JSON status."
+					},
+					"response": []
 				}
 			]
 		},
@@ -359,6 +377,53 @@
 					]
 				},
 				{
+					"name": "Update Workflow",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Workflow Name\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/workflows/{{workflow_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"workflows",
+								"{{workflow_id}}"
+							]
+						},
+						"description": "Update an existing workflow's name."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Workflow",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/workflows/{{workflow_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"workflows",
+								"{{workflow_id}}"
+							]
+						},
+						"description": "Delete a workflow by ID."
+					},
+					"response": []
+				},
+				{
 					"name": "Add Node to Workflow",
 					"event": [
 						{
@@ -527,6 +592,98 @@
 							"body": "{\n    \"error\": \"Action not found\"\n}"
 						}
 					]
+				},
+				{
+					"name": "Get All Nodes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/workflows/{{workflow_id}}/nodes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"workflows",
+								"{{workflow_id}}",
+								"nodes"
+							]
+						},
+						"description": "Get all nodes in a workflow."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Node by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/workflows/{{workflow_id}}/nodes/{{node_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"workflows",
+								"{{workflow_id}}",
+								"nodes",
+								"{{node_id}}"
+							]
+						},
+						"description": "Get a specific node by ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Update Node",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"positionX\": 300,\n    \"positionY\": 400,\n    \"config\": {\n        \"stepName\": \"Updated Step Name\"\n    }\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/workflows/{{workflow_id}}/nodes/{{node_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"workflows",
+								"{{workflow_id}}",
+								"nodes",
+								"{{node_id}}"
+							]
+						},
+						"description": "Update a node's position and/or configuration."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Node",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/workflows/{{workflow_id}}/nodes/{{node_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"workflows",
+								"{{workflow_id}}",
+								"nodes",
+								"{{node_id}}"
+							]
+						},
+						"description": "Delete a node from a workflow."
+					},
+					"response": []
 				},
 				{
 					"name": "Add Edge to Workflow",

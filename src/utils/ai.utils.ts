@@ -3,7 +3,10 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "";
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
+
+const genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
 export interface WorkflowNodeSnapshot {
   tempId: string;
@@ -32,7 +35,7 @@ export async function* streamWorkflowGeneration(
   currentState?: WorkflowSnapshot
 ) {
   const chat = genAI.chats.create({
-    model: "gemini-2.0-flash",
+    model: GEMINI_MODEL,
     config: {
       systemInstruction: getSystemInstruction(actions)
     },

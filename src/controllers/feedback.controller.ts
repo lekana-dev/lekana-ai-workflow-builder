@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import prisma from '../lib/prisma';
+import { runInBackground } from '../utils/background';
 import { sendFeedbackAcknowledgmentEmail, sendInternalFeedbackNotification } from '../utils/emailService';
 
 /**
@@ -63,13 +64,17 @@ export const createFeedback = async (req: Request, res: Response) => {
 
         // Send email notifications asynchronously
         if (userEmail) {
-            sendFeedbackAcknowledgmentEmail(userEmail, feedback, workflowName).catch(err =>
-                console.error('Failed to send user feedback email:', err)
+            runInBackground(() =>
+                sendFeedbackAcknowledgmentEmail(userEmail, feedback, workflowName).catch(err =>
+                    console.error('Failed to send user feedback email:', err)
+                )
             );
         }
 
-        sendInternalFeedbackNotification(feedback, userEmail).catch(err =>
-            console.error('Failed to send internal feedback email:', err)
+        runInBackground(() =>
+            sendInternalFeedbackNotification(feedback, userEmail).catch(err =>
+                console.error('Failed to send internal feedback email:', err)
+            )
         );
 
         res.status(201).json(feedback);
